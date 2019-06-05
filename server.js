@@ -9,9 +9,38 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 
-app.get("/:info", function (req, res) {
-    var l = req.params.info
-    res.sendFile(path.join(__dirname, l));
+app.get("/", function (req, res) {
+   res.sendFile(path.join(__dirname, "index.html"));
+});
+app.get("/index.html", function (req, res) {
+    //var filePath = req.params.path
+    var filePath = req.params.item
+    console.log(filePath)
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+app.get("/:item", function (req, res) {
+    //var filePath = req.params.path
+    var filePath = req.params.item
+    console.log(filePath)
+    res.sendFile(path.join(__dirname, filePath));
+});
+app.get("/js/:item", function (req, res) {
+    //var filePath = req.params.path
+    var filePath = req.params.item
+    console.log(filePath)
+    res.sendFile(path.join(__dirname, "js/"+filePath));
+});
+app.get("/css/:item", function (req, res) {
+    //var filePath = req.params.path
+    var filePath = req.params.item
+    console.log(filePath)
+    res.sendFile(path.join(__dirname, "css/"+filePath));
+});
+app.get("/images/:item", function (req, res) {
+    //var filePath = req.params.path
+    var filePath = req.params.item
+    console.log(filePath)
+    res.sendFile(path.join(__dirname, "images/"+filePath));
 });
 
 app.listen(PORT, function () {

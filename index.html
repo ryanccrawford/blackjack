@@ -1,112 +1,111 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-    <title>Black Jack - Game by Ryan Crawford</title>
-    <!-- Required meta tags -->
+    <title>BlackJack - Game by Ryan Crawford</title>  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body class="bg-darkgreen">
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-            <a class="navbar-brand text-white" href="#">Blackjack</a>
-            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="container">
-                <div class="float-left">
-                    <h4 class="text-white">Player: <span id="player-points" class="badge badge-primary">0</span></h4>
-                    <h4 class="text-white">Dealer: <span id="dealer-points" class="badge badge-primary">0</span></h4>
-                </div>
-                <div class="float-right">
-                    <h4 class="text-white">Player: <span id="player-money" class="badge badge-primary">0.00</span></h4>
-                    <h4 class="text-white">Pot: <span id="bets" class="badge badge-primary">0.00</span></h4>
-                </div>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand text-white" href="#"><img src="images/bj.svg"></a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+            aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="container">
+            <div class="float-left">
+                <h4 class="text-white">Player: <span id="player-points" class="badge badge-primary">0</span></h4>
+                <h4 class="text-white">Dealer: <span id="dealer-points" class="badge badge-primary">0</span></h4>
             </div>
-        </nav>
-   <div class="container pt-4">
-       
+            <div class="float-right">
+                <h4 class="text-white">Player: <span id="player-money" class="badge badge-primary">0.00</span></h4>
+                <h4 class="text-white">Pot: <span id="bets" class="badge badge-primary">0.00</span></h4>
+            </div>
+        </div>
+    </nav>
+    <div class="container pt-4">
+
         <div class="row">
             <div id="dealer-cards" class="col">
 
 
             </div>
-            <div id="dealer-bj" class="bjin" style="display:none;" ><img src="/bj.svg"></div>
+            <div id="dealer-bj" class="bjin" style="display:none;"><img src="images/bj.svg"></div>
         </div>
-       
+
     </div>
     <div class="container pt-4">
-        
-    <div class="row">
-        <div id="player-cards" class="col">
+
+        <div class="row">
+            <div id="player-cards" class="col">
 
 
+            </div>
+            <div id="player-bj" class="bjin" style="display:none;"><img src="images/bj.svg"></div>
         </div>
-        <div id="player-bj" class="bjin" style="display:none;" ><img src="/bj.svg"></div>
-    </div>
-    <div class="row">
+        <div class="row">
             <div id="player-cards-split-top" class="col">
 
 
             </div>
-    </div>
-    <div class="row">
+        </div>
+        <div class="row">
             <div id="player-cards-split-bottom" class="col">
 
 
             </div>
+        </div>
     </div>
-    </div>
-    <div class="container pt-2">
-        
-                    <div id="player-messages" class="row">
+    <div class="container section pt-2">
+<div class="row">
+        <div id="player-messages" class="col-6">
+           
+        </div> 
+        <div id="player-buttons" class="col-6">
 
-                    </div>
-                    <div id="player-buttons" class="row">
-                        
-                         
-                    </div>
+        </div>
     </div>
-     <div class="modal" id="betModal" tabindex="-1" role="dialog">
-         <div class="modal-dialog" role="document">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h5 class="modal-title">Bet</h5>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                         <span aria-hidden="true">&times;</span>
-                     </button>
-                 </div>
-                 <div class="modal-body">
-                     <p>Place A Bet</p>
-                     <label for="customRange3" s>Amount $</label>
-                     <input type="range" class="custom-range" step="0.50" id="betRange">
-                     $<input type="number" id="rangtext" value="10.00">
-                 </div>
 
-                 <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="button" id="placeBet" class="btn btn-primary">Bet</button>
-                 </div>
-             </div>
-         </div>
-     </div>
-    
+
+        </div>
+    </div>
+    <div class="modal" id="betModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bet</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Place A Bet</p>
+                    <label for="customRange3" s>Amount $</label>
+                    <input type="range" class="custom-range" step="0.50" id="betRange">
+                    $<input type="number" id="rangtext" value="10.00">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="placeBet" class="btn btn-primary">Bet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
     </script>
-    <script src="/player.js"></script>
-     <script src="/decks.js"></script>
-    <script src="/deck_objbased.js"></script>
-   
+    <script src="js/player.js"></script>
+    <script src="js/decks.js"></script>
+    <script src="js/deck_objbased.js"></script>
+
 </body>
 
 </html>

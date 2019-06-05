@@ -104,7 +104,7 @@ Player.prototype.stay = function (stayEvent) {
     $('#player-messages').empty()
     printMessage("You Stay!", false)
       player1.hasBlackJack = false
-      player1.hasBlackJack = checkNatural(player1)
+      player1.hasBlackJack = (player1.calPoints(1,player1.cards) || player1.calPoints(11,player1.cards))==21 ? true : false
     if (player1.hasBlackJack) {
 
         //CHECK TO SEE IF Dealer has a face card, is 10 or is ace. if not then player auto wis
