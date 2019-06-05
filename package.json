@@ -1,0 +1,28 @@
+{
+  "name": "card-game",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Ryan Crawford",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "express": "^4.17.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  },
+  "description": "Classic Card Game Blackjack or 21",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanccrawford/blackjack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ryanccrawford/blackjack/issues"
+  },
+  "homepage": "https://github.com/ryanccrawford/blackjack#readme"
+}
