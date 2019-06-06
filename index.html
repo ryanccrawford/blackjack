@@ -10,24 +10,17 @@
 
 <body class="bg-darkgreen">
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand text-white" href="#"><img src="images/bj.svg"></a>
+        <a class="navbar-brand text-white" href="/"><img id="game-name" src="images/bj.svg"></a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
             aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="container">
-            <div class="float-left">
-                <h4 class="text-white">Player: <span id="player-points" class="badge badge-primary">0</span></h4>
-                <h4 class="text-white">Dealer: <span id="dealer-points" class="badge badge-primary">0</span></h4>
-            </div>
-            <div class="float-right">
-                <h4 class="text-white">Player: <span id="player-money" class="badge badge-primary">0.00</span></h4>
-                <h4 class="text-white">Pot: <span id="bets" class="badge badge-primary">0.00</span></h4>
-            </div>
-        </div>
+        
     </nav>
     <div class="container pt-4">
-
+        <div class="container">
+           <h5 class="text-white">Dealers Score: <span id="dealer-points" class="badge badge-primary">0</span> <span class="float-right">Pot: <span id="bets" class="badge badge-primary">0.00</span></span></h5>
+        </div>
         <div class="row">
             <div id="dealer-cards" class="col">
 
@@ -35,10 +28,14 @@
             </div>
             <div id="dealer-bj" class="bjin" style="display:none;"><img src="images/bj.svg"></div>
         </div>
-
+    </div>
+    <div class="container">
+        <div class="line"></div>
     </div>
     <div class="container pt-4">
-
+        <div class="container">
+        <h5 class="text-white">Your Score: <span id="player-points" class="badge badge-primary">0</span> <span class="float-right">Your Bankroll: <span id="player-money" class="badge badge-primary">0.00</span></span></h5>
+        </div>
         <div class="row">
             <div id="player-cards" class="col">
 
@@ -102,8 +99,8 @@
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
     </script>
-    <script src="js/player.js"></script>
     <script src="js/decks.js"></script>
+    <script src="js/player.js"></script>
     <script src="js/deck_objbased.js"></script>
 
 </body>

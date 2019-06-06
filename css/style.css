@@ -22,6 +22,11 @@ body.bg-darkgreen {
     left: 33%;
     top: 33%;
 }
+.line{
+width:100%;
+border-top:3px solid white;
+
+}
 .bjin {
     animation: tracking-in-expand-fwd-top 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
 }

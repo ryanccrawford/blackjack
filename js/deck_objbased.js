@@ -1,27 +1,27 @@
-const numDecks = 6;
-var turn = "player";
-var play = "player";
-var deck = new Deck();
-var player1 = new Player("player");
-var player1Bank = new Bank(5000.0);
-var dealer = new Player("dealer");
-var dealerBank = new Bank(100000000.0);
-var pot = new Pot(10, player1Bank, dealerBank);
-var dealerPlaying = false;
-console.log(player1Bank);
-console.log(dealerBank);
-console.log(pot);
-var setGetNewDeckFlag = false;
-var playing = false;
-var bettingRound = 0;
-var playTimer = null;
-var isDealerFirst = true;
+const numDecks = 6
+var deck = new Deck()
+var turn = "player"
+var play = "player"
+var player1 = new Player("player")
+var player1Bank = new Bank(5000.0)
+var dealer = new Player("dealer")
+var dealerBank = new Bank(100000000.0)
+var pot = new Pot(10, player1Bank, dealerBank)
+var dealerPlaying = false
+console.log(player1Bank)
+console.log(dealerBank)
+console.log(pot)
+var setGetNewDeckFlag = false
+var playing = false
+var bettingRound = 0
+var playTimer = null
+var isDealerFirst = true
 $(document).ready(function() {
   showOpen();
   
 });
 function showOpen(){
-  var t = function(){$(".navbar-brand")[0].fadeIn(1000)}
+  var t = function(){$("#game-name").fadeIn(1000)}
 
  
   setTimeout(t, 400)

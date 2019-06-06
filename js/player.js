@@ -1,4 +1,3 @@
-
 /** PLAYER Constuctor & Methods **/
 /** @constructor **/
 /** @param {string} type **/
@@ -21,8 +20,8 @@ function Player(type) {
     this.score1 = 0
     this.score2 = 0
     
-}
-Player.prototype.getEventCallBack = function(event){
+
+this.getEventCallBack = function(event){
     var id = event.target.id.split('-')[0]
     switch (id) {
         case "hit":
@@ -45,7 +44,7 @@ Player.prototype.getEventCallBack = function(event){
     }
 
 }
-Player.prototype.draw = function (_deck = deck, playType = '') {
+this.draw = function (_deck = deck, playType = '') {
     this.position++
     this.playType = playType
     if (this.cards.length === 1 && this.type === 'dealer') {
@@ -53,7 +52,7 @@ Player.prototype.draw = function (_deck = deck, playType = '') {
     }
     _deck.draw(this)
 }
-Player.prototype.drawCardEvent = function (data, type) {
+this.drawCardEvent = function (data, type) {
     $.event.trigger({
         type: "drawCardEvent",
         message: {
@@ -62,7 +61,7 @@ Player.prototype.drawCardEvent = function (data, type) {
         }
     });
 }
-Player.prototype.drawHitCardEvent = function (data, type) {
+this.drawHitCardEvent = function (data, type) {
     $.event.trigger({
         type: "drawHitCardEvent",
         message: {
@@ -71,7 +70,7 @@ Player.prototype.drawHitCardEvent = function (data, type) {
         }
     });
 }
-Player.prototype.displaycard = function (card = null) {
+this.displaycard = function (card = null) {
     if (card === null) {
         showCard(this.cards[this.cards.length - 1], this)
     } else {
@@ -79,7 +78,7 @@ Player.prototype.displaycard = function (card = null) {
     }
 
 }
-Player.prototype.calPoints = function (aceWorth, cards = this.cards) {
+this.calPoints = function (aceWorth, cards = this.cards) {
     var points = 0
     if (cards.length > 0) {
         cards.forEach(function (card) {
@@ -93,13 +92,13 @@ Player.prototype.calPoints = function (aceWorth, cards = this.cards) {
     }
     return points
 }
-Player.prototype.hit = function (hitEvent) {
+this.hit = function (hitEvent) {
     console.log(hitEvent)
     $('#player-messages').empty()
     this.draw(deck, 'hit')
    
 }
-Player.prototype.stay = function (stayEvent) {
+this.stay = function (stayEvent) {
     turn = 'dealer'
     $('#player-messages').empty()
     printMessage("You Stay!", false)
@@ -126,24 +125,24 @@ Player.prototype.stay = function (stayEvent) {
     }
    
 }
-Player.prototype.doubleDown = function (doubleDownEvent) {
+this.doubleDown = function (doubleDownEvent) {
     console.log(doubleDownEvent)
     $('#player-messages').empty()
     printMessage("You Doubled Down!", false)
 }
-Player.prototype.bet = function (betEvent) {
+this.bet = function (betEvent) {
     console.log(betEvent)
     $('#player-messages').empty()
     doBet()
     printMessage("You Bet!", false)
 }
-Player.prototype.split = function (SplitEvent) {
+this.split = function (SplitEvent) {
     this.isSplit = true
     console.log(SplitEvent)
     $('#player-messages').empty()
     printMessage("You Split!", false)
 }
-Player.prototype.canSplit = function () {
+this.canSplit = function () {
     if (!this.isSplit) {
         if (this.cards.length === 2) {
             return this.cards[0].value === this.cards[1].value
@@ -153,13 +152,13 @@ Player.prototype.canSplit = function () {
     return false
 
 }
-Player.prototype.canBet = function () {
+this.canBet = function () {
     if (bettingRound === 0 ) {
             return true
         }
         return false
 }
-Player.prototype.canHit = function (stack = '') {
+this.canHit = function (stack = '') {
     this.scoreAll()
     if (this.isSplit) {
         if (stack === 'top') {
@@ -184,7 +183,7 @@ Player.prototype.canHit = function (stack = '') {
     }
 
 }
-Player.prototype.scoreAll = function () {
+this.scoreAll = function () {
     this.getScore1()
     this.getScore2()
     this.getTopScore1()
@@ -192,29 +191,35 @@ Player.prototype.scoreAll = function () {
     this.getBottomScore1()
     this.getBottomScore2()
 }
-Player.prototype.getScore1 = function () {
+this.getScore1 = function () {
       this.score1 = this.calPoints(1, this.cards)
+      return this.score1
   }
-Player.prototype.getScore2 = function () {
+this.getScore2 = function () {
       this.score2 = this.calPoints(11, this.cards)
+      return this.score2
   }
-Player.prototype.getTopScore1 = function () {
+this.getTopScore1 = function () {
       if(!this.splitTop.length) return
       this.topScore1 = this.calPoints(1, this.splitTop)
+      return this.topScore1
   }
-Player.prototype.getTopScore2 = function () {
+this.getTopScore2 = function () {
        if (!this.splitTop.length) return
       this.topScore2 = this.calPoints(11, this.splitTop)
+      return this.topScore2
   }
-Player.prototype.getBottomScore1 = function () {
+this.getBottomScore1 = function () {
        if (!this.splitBottom.length) return
       this.bottomScore1 = this.calPoints(1, this.splitBottom)
+      return this.bottomScore1
   }
-Player.prototype.getBottomScore2 = function () {
+this.getBottomScore2 = function () {
        if (!this.splitBottom.length) return
       this.bottomScore2 = this.calPoints(11, this.splitBottom)
+      return this.bottomScore2
 }
-Player.prototype.resetPlayer = function () {
+this.resetPlayer = function () {
     bettingRound = 0
     turn = 'player'
     play = 'player'
@@ -232,3 +237,4 @@ Player.prototype.resetPlayer = function () {
     this.splittingTop = false;
 }
   
+}
