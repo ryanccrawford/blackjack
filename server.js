@@ -18,12 +18,6 @@ app.get("/index.html", function (req, res) {
     console.log(filePath)
     res.sendFile(path.join(__dirname, "index.html"));
 });
-app.get("/index.html", function (req, res) {
-    //var filePath = req.params.path
-    var filePath = req.params.item
-    console.log(filePath)
-    res.sendFile(path.join(__dirname, "index.html"));
-});
 app.get("/:item", function (req, res) {
     //var filePath = req.params.path
     var filePath = req.params.item
