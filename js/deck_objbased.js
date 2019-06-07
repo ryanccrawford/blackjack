@@ -16,6 +16,7 @@ var playing = false
 var bettingRound = 0
 var playTimer = null
 var isDealerFirst = true
+var chipsCurrent = []
 $(document).ready(function() {
   showOpen();
   
@@ -65,6 +66,9 @@ $(document).on("getNewDeckEvent", function(response) {
     deck.getNewDeck(numDecks);
   }
 });
+$(document).on('getSvgEvent', function (response) {
+   throwChip(response.message.svg)
+ })
 $(document).on("shuffleDeckEvent", function(response) {
   if (response.message.data.success) {
     deck.shuffled = true;
@@ -85,6 +89,7 @@ $("#betRange").change(function(event) {
 });
 $("#placeBet").click(function(event) {
   $("#betModal").modal("hide");
+  doBet()
 });
 $(document).on("drawCardEvent", function(response) {
   deck.remaining = response.message.data.remaining;
@@ -135,6 +140,15 @@ $(document).on("drawCardEvent", function(response) {
     }
   }
 });
+function throwChip(svgChip) {
+  var amount = chipsCurrent[chipsCurrent.length - 1].getValue()
+  var c = $("<div>")
+ 
+  $(c).html(svgChip).addClass("chip")
+  $("#player-chips").append(c).fadeIn(500)
+
+    pot.add(amount, player1Bank);
+}
 /** Gameplay & Display Functions **/
 function doBet() {
   var brang = $("#betRange");
@@ -143,10 +157,15 @@ function doBet() {
     .attr("max", 500 > player1Bank.balance ? player1Bank.balance : 500.0)
     .val(10);
   $("#betModal").modal("show");
-  $("#betModal").on("hidden.bs.modal", function(e) {
-    console.log(e);
-    var amount = $(brang).val();
-    pot.add(amount, player1Bank);
+  $("#placeBet").click(function (event) {
+    var t = event.target
+    $("#betModal").modal("hide");
+    console.log(t);
+    var amount = parseFloat($("#betRange").val());
+    $("#betRange").val("0")
+    var chip = new chips("green")
+    chip.getsvg()
+    chipsCurrent.push(chip)
   });
 }
 function deal() {
@@ -641,15 +660,16 @@ function updateMoney() {
 function displayScore(player) {
   var pp = 0;
   player.scoreAll();
-  if (player.score1 > 21 && player.score2 < 22) {
-    pp = player.score2;
-  } else {
+  if (player.score1 < 22) {
     pp = player.score1;
+  } 
+  if (player.score2 < 22) {
+    pp = player.score2;
   }
 
   $("#" + player.type + "-points")
     .text(pp)
-    .fadeIn();
+    .fadeIn(500);
   return pp;
 }
 /** Event Handlers */
