@@ -6,6 +6,15 @@ function Player(type) {
     this.position = 0,
     this.nextCardFacing = 'up'
     this.type = type
+    this.whoamI = ""
+    if (type === "player") {
+        this.whoamI = "You"
+        this.s = ""
+    }
+    if (type === "dealer") {
+        this.whoamI = "Dealer"
+        this.s = "s"
+    }
     this.isSplit = false
     this.isBust = false
     this.playType = ''
@@ -49,6 +58,9 @@ this.draw = function (_deck = deck, playType = '') {
     this.playType = playType
     if (this.cards.length === 1 && this.type === 'dealer') {
         this.nextCardFacing = 'down'
+    }
+    if (this.playType === "hit") {
+        
     }
     _deck.draw(this)
 }
@@ -94,20 +106,26 @@ this.calPoints = function (aceWorth, cards = this.cards) {
 }
 this.hit = function (hitEvent) {
     console.log(hitEvent)
-    $('#player-messages').empty()
+    $("#player-buttons").empty()
+       printMessage(`${this.whoamI} take${this.s} a card.`, true)
     this.draw(deck, 'hit')
    
+    }
+this.toggle = function(){
+    if (this.type === "player") {
+        return "dealer"
+    } else {
+        return "player"
+    }
 }
 this.stay = function (stayEvent) {
-    turn = 'dealer'
-    $('#player-messages').empty()
-    printMessage("You Stay!", false)
-      player1.hasBlackJack = false
-      player1.hasBlackJack = (player1.calPoints(1,player1.cards) || player1.calPoints(11,player1.cards))==21 ? true : false
-    if (player1.hasBlackJack) {
+    turn = this.toggle()
+    $("#player-buttons").empty()
+    printMessage(`${this.whoamI} stay${this.s}!`, false)
+      this.hasBlackJack = false
+      this.hasBlackJack = (this.calPoints(1, this.cards) == 21 || this.calPoints(11, this.cards) == 21) ? true : false
+    if (this.hasBlackJack && this.type === "player") {
 
-        //CHECK TO SEE IF Dealer has a face card, is 10 or is ace. if not then player auto wis
-        //if so dealer must now play to see if he has 21
         if (dealer.cards[0].value === "10" || dealer.cards[0].value === "ACE" || countFace(dealer.cards[0])) {
             var card = getFaceDownCard()
             flipcard(card)
@@ -133,14 +151,16 @@ this.doubleDown = function (doubleDownEvent) {
 this.bet = function (betEvent) {
     console.log(betEvent)
     $('#player-messages').empty()
-    doBet()
     printMessage("You Bet!", false)
+    doBet()
+    
 }
 this.split = function (SplitEvent) {
     this.isSplit = true
     console.log(SplitEvent)
     $('#player-messages').empty()
     printMessage("You Split!", false)
+    this.draw(deck, 'split')
 }
 this.canSplit = function () {
     if (!this.isSplit) {
@@ -176,7 +196,7 @@ this.canHit = function (stack = '') {
 
 
     } else {
-        if (this.score1 >= 21 || this.score2 >= 21) {
+        if (this.score1 >= 21) {
             return false
         }
         return true
@@ -234,7 +254,12 @@ this.resetPlayer = function () {
     this.score1 = 0
     this.score2 = 0
     this.splittingBottom = false
-    this.splittingTop = false;
+    this.splittingTop = false
+   this.topScore1 = 0
+   this.bottomScore1 = 0
+   this.topScore2 = 0
+   this.bottomScore2 = 0
+ 
 }
   
 }

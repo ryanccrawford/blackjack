@@ -103,32 +103,33 @@ $(document).on("drawCardEvent", function(response) {
   if (response.message.other === "player") {
     switch (player1.playType) {
       case "hit":
-        player1.playType = "";
+        player1.playType = "continue";
         player1.cards.push(response.message.data.cards[0]);
         player1.displaycard();
         return;
       case "split":
         player1.playType = "splitTop";
-        player1.splitTop.push(player1.cards[0]);
+        player1.splitTop.push(Array(player1.cards).pop());
         player1.splitTop.push(response.message.data.cards[0]);
         player1.displaycard("splitTop");
-        player1.splitBottom.push(player1.cards[1]);
+        player1.splitBottom.push(Array(player1.cards).pop());
+        player1.displaycard("splitBottom");
         return;
       case "splitTop":
         player1.playType = "splitTop";
         player1.splitTop.push(response.message.data.cards[0]);
-        player1.displaycard("splitTop");
+        player1.displaycard(player1.playType);
         return;
       case "splitBottom":
         player1.playType = "splitBottom";
         player1.splitBottom.push(response.message.data.cards[0]);
-        player1.displaycard("splitBottom");
+        player1.displaycard(player1.playType);
         return;
       default:
         player1.playType = "";
         player1.cards.push(response.message.data.cards[0]);
         player1.displaycard();
-        turn = "dealer";
+        turn = player1.toggle();
         deal();
         return;
     }
@@ -158,23 +159,14 @@ function deal() {
 
     return;
   }
+  
+    if (deck.remaining <= 25) {
+        setGetNewDeckFlag = true;
+  } 
   if (turn === "player") {
-    if (deck.remaining >= 25) {
-      player1.draw(deck, "player");
-    } else {
-      setGetNewDeckFlag = true;
-      player1.draw(deck, "player");
-    }
-    return;
-  }
-  if (turn === "dealer") {
-    if (deck.remaining >= 25) {
-      dealer.draw(deck, "dealer");
-    } else {
-      setGetNewDeckFlag = true;
-      dealer.draw(deck, "dealer");
-    }
-    return;
+     player1.draw(deck, turn)
+  } else {
+   dealer.draw(deck, turn)
   }
 }
 function playGame() {
@@ -183,7 +175,7 @@ function playGame() {
   //     cards, this is a natural or "blackjack."
 
   player1.hasBlackJack = false;
-  player1.hasBlackJack = (player1.calPoints(1,player1.cards) || player1.calPoints(11,player1.cards))==21 ? true : false
+  player1.hasBlackJack = (player1.calPoints(1, player1.cards) == 21 || player1.calPoints(11, player1.cards) == 21) ? true : false
   
   if (player1.hasBlackJack) {
     //CHECK TO SEE IF Dealer has a face card, is 10 or is ace. if not then player auto wis
@@ -195,7 +187,7 @@ function playGame() {
     ) {
       var card = getFaceDownCard();
       flipcard(card);
-      if ((dealer.calPoints(1,dealer.cards) || dealer.calPoints(11,dealer.cards))==21 ? true : false) {
+      if ((dealer.calPoints(1, dealer.cards) == 21 || dealer.calPoints(11, dealer.cards) == 21) ? true : false) {
         doTie();
         return;
       }
@@ -251,7 +243,7 @@ function showCard(card, who) {
   }
 }
 function dealersTurn(_dealer) {
- 
+  
   $("#player-buttons").empty();
   dealerPlaying = true;
   if (isDealerFirst) {
@@ -268,39 +260,56 @@ function dealersTurn(_dealer) {
     scoresofar = scoresofar11;
   }
   displayScore(_dealer)
+   var whoWinsthis = function () {
+     WhoWins(scoresofar, player1);
+   };
   if (scoresofar === 21) {
     dealerPlaying = false;
-    $("#dealer-bj").fadeIn(400);
-
-    setTimeout(dealerWins, 2000);
+    setTimeout(whoWinsthis, 1000);
+   
     return;
   }
   if (scoresofar > 21) {
     dealerPlaying = false;
-    setTimeout(dealerBust, 2000);
+    setTimeout(dealerBust, 1000);
     return;
   }
   if (scoresofar <= 16) {
     printMessage("Dealer Taking Next Card", true);
-    playTimer = setTimeout(hitDealer, 2000);
+    playTimer = setTimeout(hitDealer, 1000);
     return;
   }
 
   if (scoresofar >= 17) {
     dealerPlaying = false;
-    var whoWinsthis = function() {
-      WhoWins(scoresofar, player1);
-    };
-    setTimeout(whoWinsthis, 2000);
+    setTimeout(whoWinsthis, 1000);
   }
 }
 function WhoWins(dealerScore, _player) {
   var playerScore = _player.calPoints(11, _player);
+  var playerScore11 = _player.calPoints(1, _player);
+  if ((playerScore === 21 || playerScore11 === 21) || dealerScore === 21) {
+    if (playerScore === dealerScore || playerScore11 === dealerScore) {
+      printMessage("It's a tie!", true);
+
+      setTimeout(beginGame, 5000);
+      return;
+    }
+    if ((playerScore === 21 || playerScore11 === 21)) {
+      doWin("player");
+      return;
+    }
+    if ((dealerScore === 21)) {
+      doWin("dealer");
+      return;
+    }
+  }
   if (playerScore > 21) {
     playerScore = _player.calPoints(1, _player);
   }
   displayScore(dealer)
   displayScore(_player)
+  
   if (playerScore > 21) {
     printMessage("You Busted!!", true);
 
@@ -419,6 +428,12 @@ function displayCard(card, who, facing) {
     who.isBust = isBust;
     if (who.isBust) {
       doBust(who);
+    } else {
+      if (who.playType === "continue") {
+        who.playType === ''
+        whatNext(who)
+
+      }
     }
   }
 }
@@ -431,9 +446,14 @@ function flipcard(card) {
     .fadeIn();
   displayScore(dealer);
 }
-function doWin() {
-  $("#player-bj").fadeIn(400);
-  printMessage("You Got Black Jack!");
+function doWin(whoWon = "player") {
+  $("#" + whoWon + "-bj").fadeIn(400);
+  if (whoWon === "player") {
+    printMessage("You Got BlackJack!");
+  } else {
+    printMessage("Dealer Got BlackJack!");
+  }
+  
   bettingRound = 0;
   setTimeout(function() {
     beginGame();
