@@ -18,18 +18,19 @@ var chips = function (value) {
         }
     }
     this.getsvg = function() {
-        $.get('http://localhost:3000/images/chip.svg', function (svg) {
+        $.get('/images/chip.svg', function (svg) {
             getSvgEvent(svg);
         }, 'text');
     }
 
-    this.getSvgEvent = function (data) {
-        $.event.trigger({
-            type: "getSvgEvent",
-            message: {
-                svg: data
-            }
-        });
-    }
+    
 
+}
+ function getSvgEvent(data) {
+    $.event.trigger({
+        type: "getSvgEvent",
+        message: {
+            svg: data
+        }
+    });
 }

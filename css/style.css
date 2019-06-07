@@ -56,3 +56,10 @@ border-top:3px solid white;
         opacity: 1;
     }
 }
+svg.chip {
+    fill: blue;
+}
+.chip svg {
+    width: 35px;
+    margin: 3px;
+}

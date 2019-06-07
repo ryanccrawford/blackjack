@@ -67,8 +67,8 @@ $(document).on("getNewDeckEvent", function(response) {
   }
 });
 $(document).on('getSvgEvent', function (response) {
-   throwChip(response.message.svg)
- })
+  throwChip(response.message.svg)
+})
 $(document).on("shuffleDeckEvent", function(response) {
   if (response.message.data.success) {
     deck.shuffled = true;
@@ -87,10 +87,7 @@ $("#betRange").change(function(event) {
   var rval = $(event.target).val();
   $(rt).val(rval);
 });
-$("#placeBet").click(function(event) {
-  $("#betModal").modal("hide");
-  doBet()
-});
+
 $(document).on("drawCardEvent", function(response) {
   deck.remaining = response.message.data.remaining;
   if (setGetNewDeckFlag) {
@@ -142,7 +139,7 @@ $(document).on("drawCardEvent", function(response) {
 });
 function throwChip(svgChip) {
   var amount = chipsCurrent[chipsCurrent.length - 1].getValue()
-  var c = $("<div>")
+  var c = $("<svg>")
  
   $(c).html(svgChip).addClass("chip")
   $("#player-chips").append(c).fadeIn(500)
@@ -153,10 +150,10 @@ function throwChip(svgChip) {
 function doBet() {
   var brang = $("#betRange");
   $(brang)
-    .attr("min", 10)
-    .attr("max", 500 > player1Bank.balance ? player1Bank.balance : 500.0)
+    .attr("min", 10.00)
+    .attr("max", 500.00 > player1Bank.balance ? player1Bank.balance : 500.00)
     .val(10);
-  $("#betModal").modal("show");
+ 
   $("#placeBet").click(function (event) {
     var t = event.target
     $("#betModal").modal("hide");
@@ -167,6 +164,7 @@ function doBet() {
     chip.getsvg()
     chipsCurrent.push(chip)
   });
+ $("#betModal").modal("show");
 }
 function deal() {
   setGetNewDeckFlag = false;
@@ -662,7 +660,7 @@ function displayScore(player) {
   player.scoreAll();
   if (player.score1 < 22) {
     pp = player.score1;
-  } 
+  }
   if (player.score2 < 22) {
     pp = player.score2;
   }
@@ -684,7 +682,7 @@ function dealCardEvent(data, args = {}) {
 /** @param {string} type **/
 function Pot(amount, playerBank, dealerBank) {
   console.log(amount, playerBank, dealerBank);
-  this.total = 0;
+  this.total = 0.00;
   this.bets = [];
   this.add = function(amount, fromBank) {
     var a = fromBank.widthdrawl(amount);
@@ -693,7 +691,7 @@ function Pot(amount, playerBank, dealerBank) {
       round: bettingRound
     });
 
-    this.total += a;
+    this.total += parseFloat(a);
     updateBets();
   };
   this.add(amount, playerBank);
@@ -709,12 +707,6 @@ function Pot(amount, playerBank, dealerBank) {
     var st = String(parseFloat(this.total)).split(".");
     var dollars = st[0];
     var cents = "00";
-    if (st.length > 1) {
-      cents = st[1];
-      if (cents.length == 1) {
-        cents += "0";
-      }
-    }
     var moneyLength = dollars.length;
     var digits = dollars.split("");
     var holder = "";
